@@ -1,0 +1,32 @@
+{# pagination macro with kwargs #}
+{% macro pagination_controls(current_page, num_pages, bp, kwargs) %}
+{% set route = bp.name+'.show' %}
+
+{# little hack for setting page without extension: {% set _ = kwargs.update({'page': current_page}) %} #}
+ 
+<nav>
+<ul class='pagination justify-content-center'>
+{% if current_page > 1 %}
+  {# only show 1st page breadcrumb and previous button if greater than 1 #}
+  {% set _ = kwargs.update({'page': current_page - 1}) %}
+  <li class='page-item'><a class='page-link' href="{{url_for(route, **kwargs)}}">{% raw %} < {% endraw %}</a></li>
+   {% set _ = kwargs.update({'page': 1}) %}
+  <li class='page-item'><a class='page-link' href="{{url_for(route, **kwargs)}}">1...</a></li>
+{% endif %}
+  {# 'smart' range for pagination controls #}
+  {% set begin = [current_page - 10, 1] | max %}
+  {% set end = [current_page + 10, num_pages] | min %}
+{% for n in range(begin, end + 1) %}
+   {% set _ = kwargs.update({'page': n}) %}
+  <li class='page-item'><a class='page-link' href="{{url_for(route, **kwargs)}}">{{ n }}</a></li>
+{% endfor %} 
+  {# ditto, for the end of the pagination #}
+{% if current_page < num_pages %}
+  {% set _ = kwargs.update({'page': num_pages}) %}
+  <li class='page-item'><a class='page-link' href="{{url_for(route, **kwargs)}}">...{{ num_pages }}</a></li>
+  {% set _ = kwargs.update({'page': current_page + 1}) %}
+  <li class='page-item'><a class='page-link' href="{{url_for(route, **kwargs)}}">{% raw %} > {% endraw %}</a></li>
+{% endif %}
+</ul>
+</nav>
+{% endmacro %}

@@ -1,0 +1,41 @@
+<!doctype html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!-- custom css -->
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+<!-- scripts -->
+<script src="https://kit.fontawesome.com/10c015ffd4.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</head>
+<title>{% block title %}{% endblock %}: CS351 Demo</title>
+<nav class='navbar navbar-expand-lg bg-dark'>
+  <h1 class='navbar-brand text-light'>CS351 Demo</h1>
+  {% if session['User'] %}
+  <ul class='navbar-nav mr-auto'>
+    <li class='nav-item'>
+      <a class="nav-link text-light" href="{{ url_for('item.show') }}">Items</a>
+    </li>
+    {% if session['User'].Role.name == 'Admin' %}
+    <li class='nav-item'>
+      <a class="nav-link text-light" href="{{ url_for('auth.show') }}">Users</a>
+    </li>
+    <li class='nav-item'>
+      <a class="nav-link text-light" href="{{ url_for('roles.show') }}">Roles</a>
+    </li>
+    {% endif %}
+  </ul>
+  <div class='nav-link text-light'>Hello, {{ session['User'].email }}</div>
+  <a href="{{ url_for('auth.logout') }}" class='btn btn-dark'>Logout</a>
+  {% endif %}
+</nav>
+<section class="content container container-fluid">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

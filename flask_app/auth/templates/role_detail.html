@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<div class='card'>
+  <div class='card-header'>
+    {{ role.name }}
+  </div>
+  <div class='card-body'>
+    <h4>Actions</h4>
+    {% if session['User'].Role.name == 'admin' %}
+    <button class='btn btn-danger'>
+      Delete
+    </button>
+    {% endif %}
+    <h5>Set permissions for role</h5>
+    <form method='post' action='{{ url_for('roles.set_perms', id=role.id) }}'>
+      <div class='form-row align-items-center'>
+        <div class='col-auto my-1'>
+          <select class='custom-select mr-lg-2' multiple size='{{permissions | length}}' name='perms'>
+          {% for perm in permissions %}
+            <option value='{{perm.id}}'>{{perm.module}}: {{perm.name}}</option>
+          {% endfor %}
+          <select>
+        </div>
+      </div>
+      <div class='col-auto my-1'>
+        <a class='btn btn-secondary' href="{{ url_for('roles.show') }}">Back</a>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button class='btn btn-danger' formaction='{{ url_for('roles.delete', id=role.id) }}'>
+          Delete
+        </button>
+        {% endif %}
+    </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

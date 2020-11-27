@@ -1,0 +1,8 @@
+html {
+  height: 100vh;
+}
+/* for top nav bar */
+#top {
+  background: #478ca4;
+  color: #ffffff;
+}

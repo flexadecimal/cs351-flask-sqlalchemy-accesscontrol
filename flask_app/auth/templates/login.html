@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div class='card'>
+  <div class="card-header">
+    {% block title %}Log In{% endblock %}
+  </div>
+  <div class='card-body'>
+    <form method="post" action="/login">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name='email' placeholder="Username" required>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" name='password' placeholder="Password" required>
+      </div>
+      <div class="form-group">
+        <input type='submit' name='mode' value='Login' class="btn btn-dark">
+        <input type='submit' name='mode' value='Register' class="btn btn-dark">
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

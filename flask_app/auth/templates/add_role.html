@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<div class='card'>
+  <div class='card-header'>
+  New role
+  </div>
+  <div class='card-body'>
+    <h4>Actions</h4>
+    <h5>New role</h5>
+    <form method='post' action='{{ url_for('roles.new') }}'>
+      <div class='form-group align-items-center'>
+        <label for='name'>Name</label>
+        <input class='form-control' type='text' name='name' required />
+      </div>
+      <div class='form-group align-items-center'>
+        <label for='name'>Permissions</label>
+        <div class='col-auto my-1'>
+          <select class='custom-select mr-lg-2' multiple size='{{permissions | length}}' name='perms'>
+          {% for perm in permissions %}
+            <option value='{{perm.id}}'>{{perm.module}}: {{perm.name}}</option>
+          {% endfor %}
+          <select>
+        </div>
+      </div>
+      <div class='col-auto my-1'>
+        <a class='btn btn-secondary' href="{{ url_for('roles.show') }}">Back</a>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

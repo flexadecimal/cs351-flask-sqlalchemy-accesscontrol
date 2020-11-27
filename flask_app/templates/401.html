@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Unauthorized{% endblock %}
+{% block content %}
+  <h1>Permissions error</h1>
+  <p>
+  You don't have permissions to {{permission.name}} '{{permission.module}}s'. Contact the system administrator to get your permissions fixed, if necessary.
+  </p>
+  
+{% endblock %}

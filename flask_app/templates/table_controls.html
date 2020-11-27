@@ -1,0 +1,100 @@
+{% macro field_select(translator, name) %}
+<div class='form-group col-auto'>
+  <select name='{{ name }}' class='form-control'>
+    {% for field in translator.keys() %}
+    {% set field_name = translator[field][0] %}
+    <option value='{{ field }}'>{{ field_name }}</option>
+    {% endfor %}
+  </select>
+</div>
+{% endmacro %}
+
+{# orderby ASC/DESC toggle on #}
+{% macro orderby_controls(bp, translator) %}
+{{ field_select(translator, 'orderby_field') }}
+<div class='form-group btn-group btn-group-toggle' data-toggle='buttons' col-auto'>
+  <button type='submit' class='btn btn-secondary'>
+    <input type='radio' name='sort' id='asc' value='asc' checked>
+      <span class="fa fa-sort-amount-up" aria-hidden="true"></span>
+    </input>
+  </button>
+  <button type='submit' class='btn btn-secondary'>
+    <input type='radio' name='sort' id='desc' value='desc'>
+      <span class="fa fa-sort-amount-down" aria-hidden="true"></span>
+    </input>
+  </button>
+</div>
+{% endmacro %}
+
+{# table search, including orderby #}
+{% macro search_controls(bp, translator, orderby_translator, actions) %}
+<form method='get'>
+  <div class='form-row'>
+    <fieldset class='form-group'>
+      <div class='form-row'>
+        <legend>Search</legend>
+        {{ field_select(translator, 'search_field') }}
+        <div class='form-group col-auto'>
+          <input class='form-control' name='search'>
+        </div>
+        <div class='form-group col-auto'>
+          <button type='submit' class='btn btn-primary'>Search</button>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class='form-group'>
+      <div class='form-row'>
+        <legend>Order</legend>
+        {{ orderby_controls(bp, orderby_translator) }}
+        <div class='form-group col-auto'>
+          <a href="/{{bp.name}}" class='btn btn-primary'>Reset</a>
+        </div>
+      </div>
+    </fieldset>
+    {% if actions|length %}
+    {{ action_buttons(actions) }}
+    {% endif %}
+  </div>
+</form>
+{% endmacro %}
+
+{# action buttons in top control bar #}
+{% macro action_buttons(href_to_name) %}
+<fieldset class='form-group'>
+  <div class='form-row'>
+    <legend>Actions</legend>
+    {% for href, name in href_to_name.items() %}
+    <div class='form-group col-auto'>
+      <a href="{{ href }}" class='btn btn-primary'>Add new</a>
+    </div>
+    {% endfor %}
+  </div>
+</fieldset>
+{% endmacro %}
+
+{% macro entity_table(collection, translator, entity_name) %}
+{# objects table #}
+  <table class='table table-light table-striped table-hover'>
+    <thead>
+    {% for field, name_func_tuple in translator.items() %}
+      {% set name = name_func_tuple[0] %}
+      <th>{{ name }}</th>
+    {% endfor %}
+    </thead>
+  {% for object in collection %}
+    <tr>
+    {% for field, name_func_tuple in translator.items() %}
+      {% autoescape false %}
+      {% set print_func = name_func_tuple[1] %}
+      <td>{{ print_func(object) }}</td>
+      {% endautoescape %}
+    {% endfor %}
+    </tr>
+  {% endfor %}
+  </table>
+{% endmacro %}
+
+{# table radio - so the table can be used as a form #}
+{% macro row_radio(object) %}
+<br>
+{% endmacro %}

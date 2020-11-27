@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% import "table_pagination_controls.html" as page_macro %}
+{% import "table_controls.html" as controls %}
+{# paginated table with LIKE search, etc. #}
+
+{% block content %}
+<h1>{{ entity_name }}</h1>
+{{ controls.search_controls(bp, translator, orderby_translator, actions) }}
+{{ controls.entity_table(collection, translator, entity_name) }}
+{# include pagination if argument supplied, e.g. via paginated_table #}
+{% if num_pages is defined and current_page is defined %}
+{# dict needs to be mutable so pagination_controls can modify page arg #}
+{% set page_args = dict(request.args) %}
+{{ page_macro.pagination_controls(current_page, num_pages, bp, page_args) }}
+{% endif %}
+{% endblock %}

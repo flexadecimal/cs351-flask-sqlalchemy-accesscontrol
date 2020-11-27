@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{# part detail #}
+
+{% block content %}
+<br>
+<div class='card'>
+  <div class='card-header'>
+    Word #{{item.id}}
+  </div>
+  <div class='card-body'>
+    <h5 class='card-title'>{{ item.name }}</h5>
+  </div>
+  <div class='card-body'>
+  <h4>Actions</h4>
+  <h5>Rename</h5>
+    <form method='post' action='{{ url_for('item.set_name', id=item.id) }}'>
+      <div class='form-row align-items-center'>
+        <div class='col-auto my-1'>
+          <input type='text' value='{{ item.name }}'required class='form-control' name='name'/>
+        </div>
+        <div class='col-auto my-1'>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <button class='btn btn-danger' formaction='{{ url_for('item.delete', id=item.id) }}'>
+          Delete
+        </button>
+      </div> 
+    </form>
+  </div>
+  <a class='btn btn-secondary' href="{{ url_for('item.show') }}">Back</a>
+</div>
+{% endblock %}
