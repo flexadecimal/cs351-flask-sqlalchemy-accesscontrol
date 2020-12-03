@@ -2,7 +2,7 @@ import functools
 from flask import (
   session as web_session,
   # for custom 403 with permission spec
-  abort, redirect, render_template
+  abort, redirect, render_template, url_for
 )
 from core import *
 # debug

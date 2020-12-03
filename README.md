@@ -199,3 +199,9 @@ def show():
 ### Fancy tables
 
 The previous `show` method (used in the Role, User, and Item pages) uses utility code in `ViewUtil/ViewUtil.py`.
+
+## Demonstration
+
+Here is a small video demonstrating the 3 created user accounts.
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/D9C_7_QPw7g/0.jpg)](http://www.youtube.com/watch?v=D9C_7_QPw7g "Demonstration")
